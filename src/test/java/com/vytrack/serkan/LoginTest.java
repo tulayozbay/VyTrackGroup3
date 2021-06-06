@@ -13,7 +13,7 @@ public void init() {
    login.initElement();
 }
 
-@DataProvider
+@DataProvider //way store the test cases
 public Object[][] testDataPositive() {
    return new Object[][]{
                    {"user7", "UserUser123"},
