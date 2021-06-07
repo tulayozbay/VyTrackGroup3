@@ -36,7 +36,7 @@ public class VyTrackPractice  extends BaseTest{
             Thread.sleep(3000);
 
             List<WebElement> vehicles = getDriver().findElements(By.xpath("//tbody[@class='grid-body']"));
-            WebElement target = vehicles.get((int) (Math.random() * vehicles.size()));
+            WebElement target = vehicles.get((int)(Math.random() * vehicles.size()));
             Actions actions = new Actions(getDriver());
             actions.moveToElement(target).click().perform();
             Thread.sleep(1000);

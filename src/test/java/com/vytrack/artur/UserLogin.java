@@ -3,27 +3,27 @@ package com.vytrack.artur;
 import com.vytrack.utilities.WebDriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.openqa.selenium.WebElement;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class CalendarTest {
+public class UserLogin {
     WebDriver driver;
 
-    @BeforeClass
-    public void setupClass() {
-        WebDriver driver = WebDriverFactory.getDriver("chrome");
+    public void login() {
+        driver = WebDriverFactory.getDriver("chrome");
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         driver.get("https://qa3.vytrack.com/user/login");
         driver.findElement(By.id("prependedInput")).sendKeys("user9");
         driver.findElement(By.id("prependedInput2")).sendKeys("UserUser123");
         driver.findElement(By.id("_submit")).click();
+
     }
 
-    @Test
-    public void addEventTest() {
-
+    public WebElement eventButton() {
+        WebElement addEventButton = driver.findElement(By.xpath("//a[@class='btn icons-holder-text no-hash']"));
+        return addEventButton;
     }
 }
