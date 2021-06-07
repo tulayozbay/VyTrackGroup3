@@ -1,28 +1,58 @@
 package com.vytrack.artur;
 
-import com.vytrack.utilities.WebDriverFactory;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import java.util.List;
+import java.util.Random;
 
-import java.util.concurrent.TimeUnit;
-
-public class AddEventTest {
+public class AddEventTest extends UserLogin {
 
     @BeforeClass
-    public void setupClass(){
-        WebDriver driver = WebDriverFactory.getDriver("chrome");
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        driver.get("https://qa3.vytrack.com/user/login");
-        driver.findElement(By.id("prependedInput")).sendKeys("user9");
-        driver.findElement(By.id("prependedInput2")).sendKeys("UserUser123");
-        driver.findElement(By.id("_submit")).click();
+    public void setupClass() {
+        login();
     }
 
     @Test
-    public void addEventTest() {
+    public void fleetVehicles() throws InterruptedException {
+        List<WebElement> optionsModule = driver.findElements(By.xpath("//span[@class='title title-level-1']"));
+        List<WebElement> insideFleetMenu = driver.findElements(By.xpath("//span[@class='title title-level-2']"));
+        /*
+        driver.findElement(By.xpath("//*[@id='main-menu']/ul/li[1]/a/span")).click();
+        driver.findElement(By.xpath("//div[@id='main-menu']//span[.='Vehicles']")).click();
+         */
+
+        optionsModule.get(0).click();
+        Thread.sleep(5000);
+        insideFleetMenu.get(0).click();
+        Thread.sleep(5000);
+        String expectedHeader = "Cars";
+        String actualHeader = driver.findElement(By.xpath("//h1[.='Cars']")).getText();
+        Assert.assertEquals(actualHeader, expectedHeader, "header verification");
+    }
+
+    @Test
+    public void randomCar() throws InterruptedException {
+        List<WebElement> carsTable = driver.findElements(By.xpath("//tbody[@class='grid-body']"));
+        Random random = new Random();
+        int allCars = random.nextInt(carsTable.size() + 1);
+        WebElement randomCar = carsTable.get(allCars);
+        Thread.sleep(5000);
+        randomCar.click();
+        String test = eventButton().isDisplayed() ? "PASSED!" : "FAILED!";
+        System.out.println(test);
+        Thread.sleep(5000);
+        eventButton().click();
+    }
+
+    @Test
+    public void positiveAddEvent() throws InterruptedException {
+        Thread.sleep(5000);
+        WebElement inputBox = driver.findElement(By.cssSelector("[id*=oro_calendar_event_form_t]"));
+        Thread.sleep(5000);
+        inputBox.sendKeys("New event");
 
     }
 }
